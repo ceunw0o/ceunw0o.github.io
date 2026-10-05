@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Programming e-Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons for Visual Appeal -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Premium Modern Palette */
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.85);
+            
+            --primary: #7c3aed;         /* Electric Violet */
+            --primary-dark: #5b21b6;
+            --primary-light: #f3e8ff;
+            
+            --accent-pink: #ec4899;     /* Vivid Pink */
+            --accent-pink-light: #fce7f3;
+            
+            --gradient-main: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+            --gradient-subtle: linear-gradient(135deg, #faf5ff 0%, #fdf2f8 100%);
+            --gradient-text: linear-gradient(135deg, #4c1d95 0%, #be185d 100%);
+            
+            --text-main: #0f172a;       /* Deep Slate */
+            --text-body: #334155;       /* Charcoal Slate */
+            --text-muted: #64748b;      /* Cool Grey */
+            
+            --border: #e2e8f0;
+            --border-highlight: rgba(124, 58, 237, 0.2);
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-card: 0 10px 30px -5px rgba(124, 58, 237, 0.08);
+            --shadow-hover: 0 20px 35px -10px rgba(236, 72, 153, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Sticky Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--bg-nav);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            z-index: 1000;
+            padding: 1.1rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        nav .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            position: relative;
+            padding: 0.2rem 0;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2.5px;
+            background: var(--gradient-main);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Ambient Glow Background Effects */
+        .ambient-glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1200px;
+            height: 600px;
+            background: radial-gradient(circle at 50% 20%, rgba(236, 72, 153, 0.12) 0%, rgba(124, 58, 237, 0.08) 40%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Layout & Typography */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        section {
+            position: relative;
+        }
+
+        h1, h2, h3 {
+            line-height: 1.25;
+            color: var(--text-main);
+            letter-spacing: -0.025em;
+        }
+
+        h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 3.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-main);
+            border-radius: 10px;
+            margin: 0.85rem auto 0;
+        }
+
+        /* Hero Header Section */
+        header {
+            position: relative;
+            padding: 5rem 1.5rem 4rem;
+            text-align: center;
+        }
+
+        header p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
+            font-weight: 400;
+        }
+
+        .meta-info {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 3.5rem;
+        }
+
+        .meta-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-info strong {
+            color: var(--text-main);
+        }
+
+        /* Group Members Grid */
+        .grid-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .member-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .member-card:hover {
+            transform: translateY(-7px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--border-highlight);
+        }
+
+        .member-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            background: var(--gradient-main);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 8px 16px -4px rgba(124, 58, 237, 0.3);
+        }
+
+        /* =============================================
+           GAYA KHAS UNTUK FOTO ANGGOTA (HADIRAH)
+           Bingkai lebih besar, kemas & seimbang
+           ============================================= */
+        .member-photo {
+            width: 120px;                       /* Saiz lebih besar supaya tidak kecil sangat */
+            height: 120px;                      /* Kekalkan nisbah 1:1 */
+            border-radius: 50%;                 /* Bulat sempurna */
+            object-fit: cover;                  /* Elak gambar terpesong */
+            object-position: center top;        /* Fokus ke bahagian muka */
+            display: block;
+            margin: 0 auto 1.25rem;             /* Tengah & jarak bawah */
+            border: 4px solid #ffffff;          /* Bingkai putih tebal */
+            box-shadow:
+                0 0 0 3px rgba(124, 58, 237, 0.25),   /* Outer ring halus */
+                0 10px 22px rgba(124, 58, 237, 0.18); /* Bayang lembut */
+            background: var(--gradient-subtle);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.35s ease;
+        }
+
+        .member-card:hover .member-photo {
+            transform: scale(1.06);
+            box-shadow:
+                0 0 0 4px rgba(236, 72, 153, 0.35),
+                0 14px 28px rgba(236, 72, 153, 0.28);
+        }
+
+        /* Pastikan teks dalam card Hadirah kekal sejajar tengah
+           supaya seimbang dengan avatar bulat */
+        .member-card:has(.member-photo) {
+            align-items: center;
+            text-align: center;
+        }
+
+        .member-card:has(.member-photo) .role-badge {
+            align-self: center;
+        }
+
+        .member-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .member-card .matric {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .role-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .member-card .contribution {
+            font-size: 0.88rem;
+            color: var(--text-body);
+            line-height: 1.5;
+            border-top: 1px dashed var(--border);
+            padding-top: 0.8rem;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Project Overview Section */
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 3rem;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--gradient-main);
+        }
+
+        /* Project & Case Cards Grid */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.25rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-card);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(236, 72, 153, 0.3);
+        }
+
+        .card-content {
+            padding: 1.85rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h3 i {
+            color: var(--primary);
+            font-size: 1.05rem;
+        }
+
+        .card p.desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            background-color: var(--primary-light);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .reflection-box {
+            margin-top: 1rem;
+            padding: 1.2rem;
+            background: var(--gradient-subtle);
+            border-left: 4px solid var(--accent-pink);
+            border-radius: 12px;
+            font-size: 0.88rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        .reflection-box strong {
+            color: var(--accent-pink);
+            display: block;
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Premium Gradient Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 1.5rem;
+            padding: 0.85rem 2rem;
+            background: var(--gradient-main);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px -4px rgba(236, 72, 153, 0.5);
+            opacity: 0.95;
+        }
+
+        /* Blocks & Containers */
+        .text-block {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            color: var(--text-body);
+            font-size: 1.05rem;
+            line-height: 1.85;
+            box-shadow: var(--shadow-card);
+        }
+
+        /* Modern Skill Badges */
+        .skills-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill-badge {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.7rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-badge i {
+            color: var(--primary);
+        }
+
+        .skill-badge:hover {
+            border-color: var(--accent-pink);
+            color: var(--accent-pink);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px -4px rgba(236, 72, 153, 0.25);
+        }
+
+        /* Resources List */
+        .resources-list {
+            list-style: none;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem 2.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .resources-list li {
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-body);
+            font-size: 0.98rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .resources-list li:last-child {
+            border-bottom: none;
+        }
+
+        .resources-list li i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Modern Footer */
+        footer {
+            padding: 4rem 1.5rem;
+            text-align: center;
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border);
+            font-weight: 500;
+        }
+
+        footer p.copyright {
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.2rem 1.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 2.3rem;
+            }
+
+            .container {
+                padding: 3.5rem 1.25rem;
+            }
+
+            .project-card, .text-block, .resources-list {
+                padding: 1.75rem;
+            }
+
+            .meta-info {
+                border-radius: 20px;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            /* Saiz foto kekal kemas pada skrin kecil */
+            .member-photo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i> e-Portfolio
+        </div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#labs">Labs</a></li>
+            <li><a href="#reflection">Reflection</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#resources">Resources</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header id="home">
+        <div class="container" style="padding-top: 2rem; padding-bottom: 0;">
+            <h1>TTTN3133 Secure Programming</h1>
+            <p class="subtitle">Student e-Portfolio Showcase highlighting secure system design, vulnerability implementations, and code fixes.</p>
+            
+            <div class="meta-info">
+                <span><i class="fa-solid fa-graduation-cap"></i> <strong>Programme:</strong> Computer Science (Software Technology)</span>
+                <span><i class="fa-solid fa-user-tie"></i> <strong>Instructor:</strong> Nur Hanis Sabrina binti Suhaimi</span>
+            </div>
+
+            <div class="grid-members">
+                <!-- Member 1: Nur Hadirah (Menggunakan Foto) -->
+                <div class="member-card">
+                    <img src="hadirah.jpeg" alt="Nur Hadirah binti Khairi Affendi" class="member-photo">
+                    <h3>Nur Hadirah binti Khairi Affendi</h3>
+                    <div class="matric">Matric No: A216559</div>
+                    <span class="role-badge">Leader / Security Analyst</span>
+                    <div class="contribution">
+                        <i class="fa-solid fa-check-circle" style="color: var(--primary);"></i> Lead authentication security fixes and documentation.
+                    </div>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="member-card">
+                    <img src="ain.jpeg" alt="Ain Zahirah binti Ainuddin" class="member-photo">
+                    <h3>Ain Zahirah binti Ainuddin</h3>
+                    <div class="matric">Matric No: A216718</div>
+                    <span class="role-badge">Backend Developer</span>
+                    <div class="contribution">
+                        <i class="fa-solid fa-check-circle" style="color: var(--primary);"></i> Handled database security, SQL Injection fixes, and unit tests.
+                    </div>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="member-card">
+                    <img src="dyana.jpeg" alt="Dyana binti Azizol" class="member-photo">
+                    <h3>Dyana Binti Azizol</h3>
+                    <div class="matric">Matric No: A216806</div>
+                    <span class="role-badge">Front-End Developer</span>
+                    <div class="contribution">
+                        <i class="fa-solid fa-check-circle" style="color: var(--primary);"></i> Managed UI security validations and GitHub Pages integration.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview Section -->
+    <section id="projects">
+        <div class="container">
+            <h2>Project Overview</h2>
+            <div class="project-card">
+                <h3 style="margin-bottom: 0.75rem; color: var(--text-main); font-size: 1.5rem;">
+                    <i class="fa-solid fa-lock" style="color: var(--primary);"></i> Project: Secure Application Suite
+                </h3>
+                <p style="margin-bottom: 1.5rem; color: var(--text-body);">
+                    <strong>Problem Statement:</strong> Modern software systems are vulnerable to common security exploits like SQL Injection and unvalidated user inputs. This project demonstrates how identifying insecure code snippets and applying defensive programming techniques mitigates risk and protects user data.
+                </p>
+                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="btn">
+                    <i class="fa-brands fa-github"></i> View Source Code on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Labs & Vulnerability Cases Section -->
+    <section id="labs">
+        <div class="container">
+            <h2>Vulnerability Solutions & Live Testing</h2>
+            <div class="grid-cards">
+                
+                <!-- Case 1 -->
+                <div class="card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Case 1 Demo" allowfullscreen></iframe>
+                    </div>
+                    <div class="card-content">
+                        <h3><i class="fa-solid fa-key"></i> Case 1: Login Test Vulnerability</h3>
+                        <p class="desc">Demonstrating insecure authentication mechanisms and implementing password hash validation.</p>
+                        <div class="reflection-box">
+                            <strong><i class="fa-solid fa-lightbulb"></i> Reflection</strong>
+                            Implementing strong hash verification prevented basic authentication bypasses. Understanding credential protection in the login workflow emphasized the importance of secure session management.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Case 2 Demo" allowfullscreen></iframe>
+                    </div>
+                    <div class="card-content">
+                        <h3><i class="fa-solid fa-filter"></i> Case 2: Data Validation Fix</h3>
+                        <p class="desc">Remediating unvalidated user input fields to avoid parameter tampering.</p>
+                        <div class="reflection-box">
+                            <strong><i class="fa-solid fa-lightbulb"></i> Reflection</strong>
+                            Validating input types on both client and server sides prevented malformed inputs from reaching core services. This reinforcement highlighted input sanitization as a primary line of defense.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Case 3 Demo" allowfullscreen></iframe>
+                    </div>
+                    <div class="card-content">
+                        <h3><i class="fa-solid fa-user-shield"></i> Case 3: Data Access Control</h3>
+                        <p class="desc">Fixing unauthorized object access vulnerabilities in data transactions.</p>
+                        <div class="reflection-box">
+                            <strong><i class="fa-solid fa-lightbulb"></i> Reflection</strong>
+                            Enforcing strict Role-Based Access Control (RBAC) ensured users could only query their allowed data. This fix showed how authorization checks prevent privilege escalation risks.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 4 -->
+                <div class="card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Case 4 Demo" allowfullscreen></iframe>
+                    </div>
+                    <div class="card-content">
+                        <h3><i class="fa-solid fa-database"></i> Case 4: SQL Injection Mitigation</h3>
+                        <p class="desc">Replacing raw concatenated SQL queries with parameterized statements.</p>
+                        <div class="reflection-box">
+                            <strong><i class="fa-solid fa-lightbulb"></i> Reflection</strong>
+                            Utilizing prepared statements neutralized SQL Injection vectors completely. Learning to decouple query logic from data input was key to maintaining database integrity.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 5 -->
+                <div class="card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Case 5 Demo" allowfullscreen></iframe>
+                    </div>
+                    <div class="card-content">
+                        <h3><i class="fa-solid fa-bug"></i> Case 5: Secure Error Handling</h3>
+                        <p class="desc">Preventing sensitive system information exposure via unhandled stack traces.</p>
+                        <div class="reflection-box">
+                            <strong><i class="fa-solid fa-lightbulb"></i> Reflection</strong>
+                            Replacing verbose system error messages with generic user messages protected internal architecture secrets. It taught us to balance user feedback with system privacy.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 6 -->
+                <div class="card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Case 6 Demo" allowfullscreen></iframe>
+                    </div>
+                    <div class="card-content">
+                        <h3><i class="fa-solid fa-file-contract"></i> Case 6: Secure Logging</h3>
+                        <p class="desc">Enforcing audit trails without logging sensitive user credentials.</p>
+                        <div class="reflection-box">
+                            <strong><i class="fa-solid fa-lightbulb"></i> Reflection</strong>
+                            Sanitizing logs ensured system events remain trackable without violating data protection requirements. It proved that logging practices require security oversight.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Reflection Section -->
+    <section id="reflection">
+        <div class="container">
+            <h2>Reflection & Learning Journey</h2>
+            <div class="text-block">
+                <p>Completing the TTTN3133 Secure Programming course provided deep insights into designing systems with security integrated at every layer rather than applied as an afterthought. Through identifying real-world vulnerabilities like SQL Injection and unvalidated inputs, we learned to apply defensive coding principles effectively. This project enhanced our problem-solving capabilities, technical analysis, and collaborative software development skills. Moving forward, these practices will form the cornerstone of our approach to building reliable, enterprise-grade software applications.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2>Skills & Tech Stack</h2>
+            <div class="skills-wrapper">
+                <span class="skill-badge"><i class="fa-brands fa-html5"></i> HTML5</span>
+                <span class="skill-badge"><i class="fa-brands fa-css3-alt"></i> CSS3</span>
+                <span class="skill-badge"><i class="fa-solid fa-database"></i> SQL</span>
+                <span class="skill-badge"><i class="fa-brands fa-python"></i> Python</span>
+                <span class="skill-badge"><i class="fa-solid fa-code"></i> C</span>
+                <span class="skill-badge"><i class="fa-solid fa-cubes"></i> OOP</span>
+                <span class="skill-badge"><i class="fa-solid fa-shield-virus"></i> SQL Injection Prevention</span>
+                <span class="skill-badge"><i class="fa-solid fa-file-code"></i> Secure Code Audit</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <div class="container">
+            <h2>Resources & Acknowledgements</h2>
+            <ul class="resources-list">
+                <li>
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <div>
+                        <strong>OWASP Top 10 Guidelines:</strong> Used as reference for secure coding standards and vulnerability identification.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                    <div>
+                        <strong>Programming Languages & Tools:</strong> C, Python, SQL, HTML5, CSS3, and Git/GitHub.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-robot"></i>
+                    <div>
+                        <strong>AI Assistance Acknowledgement:</strong> Generative AI tools (Gemini / ChatGPT) were utilized for code structure generation, HTML template formatting, and refining documentation clarity.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Nur Hadirah binti Khairi Affendi (A216559) | Ain Zahirah binti Ainuddin (A216718) | Dyana Binti Azizol (A216806)</p>
+        <p class="copyright">&copy; 2026 TTTN3133 Secure Programming e-Portfolio. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
